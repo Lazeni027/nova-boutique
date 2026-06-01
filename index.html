@@ -1118,7 +1118,7 @@
             const message = `🛒 NOUVELLE COMMANDE NOVA-SHOP 🛒%0A%0A📦 Produit: ${product}%0A💰 Prix: ${parseInt(price).toLocaleString()} FCFA%0A👤 Client: ${name}%0A📞 Tel client: ${clientPhone}%0A📍 Ville: ${city}%0A%0A✅ Merci de contacter le client pour finaliser la commande.`;
             
             // Numero du marchand: 0554101873 -> format international sans le 0: 225554101873
-            const marchandPhone = "225554101873";
+            const marchandPhone = "2250554101873";
             
             window.open(`https://wa.me/${marchandPhone}?text=${message}`, '_blank');
             closeOrderModal();
