@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>NOVA-SHOP | Informatique & High-Tech</title>
+    <meta name="description" content="Boutique en ligne d'appareils informatiques et high-tech à Korhogo">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e67e22;
+            --primary-dark: #d35400;
+            --primary-light: #f39c12;
+            --secondary: #1a1a2e;
+            --secondary-light: #16213e;
+            --dark: #0f3460;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 5px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: var(--light);
+            color: #1d1d1f;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* SIDEBAR MENU BURGER A DROITE */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            z-index: 1100;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-lg);
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 1.8rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .sidebar-logo span {
+            color: var(--primary);
+        }
+
+        .sidebar-logo small {
+            font-size: 0.7rem;
+            display: block;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1.8rem;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--primary);
+            padding-left: 2.2rem;
+        }
+
+        /* TOP NAVIGATION - LOGO GAUCHE, BURGER DROITE */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-burger {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-burger:hover {
+            background: var(--light-gray);
+        }
+
+        .top-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-top: 70px;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* FILTRES BANDE */
+        .filters-bar {
+            position: sticky;
+            top: 70px;
+            background: white;
+            padding: 0.8rem 1rem;
+            box-shadow: var(--shadow-sm);
+            z-index: 990;
+            display: flex;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            background: var(--light-gray);
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* SECTION TITLES */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 1rem;
+            letter-spacing: -0.3px;
+        }
+
+        /* GRILLES */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 0.5rem 0 1rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: 10px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .horizontal-scroll .product-card {
+            flex: 0 0 270px;
+            scroll-snap-align: start;
+        }
+
+        /* PRODUCT CARD */
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .badge-hot { background: var(--danger); color: white; }
+        .badge-new { background: var(--success); color: white; }
+        .badge-sale { background: var(--primary); color: white; }
+        .badge-promo { background: #9b59b6; color: white; }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 0.9rem;
+        }
+
+        .product-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .product-category {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-bottom: 0.4rem;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-price del {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-left: 0.4rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.7rem;
+        }
+
+        .btn-detail, .btn-buy {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .btn-detail {
+            background: var(--light-gray);
+            border: none;
+            color: var(--secondary);
+        }
+
+        .btn-detail:hover {
+            background: var(--gray);
+            color: white;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: white;
+        }
+
+        /* PUBLICITE SUPERPOSEE */
+        .promo-superpose {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 24px;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .promo-superpose-content {
+            color: white;
+        }
+
+        .promo-superpose-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-superpose img {
+            max-width: 120px;
+            border-radius: 16px;
+        }
+
+        .promo-btn {
+            background: white;
+            color: #764ba2;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 0.8rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* MIX GRID (justapose/superpose) */
+        .products-mix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .products-mix .product-card:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .products-mix .product-card:first-child .product-img {
+            height: 280px;
+        }
+
+        @media (max-width: 768px) {
+            .products-mix {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .products-mix .product-card:first-child {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-mix {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* BOUTON VOIR PLUS */
+        .btn-see-more {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .btn-see-more button {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-see-more button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* MODALS */
+        .modal-overlay, .order-modal, .modal-full {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-detail, .order-modal-content, .modal-full-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 550px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-detail-header, .order-header {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            color: white;
+            padding: 1rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .order-form {
+            padding: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            font-family: inherit;
+        }
+
+        .submit-order {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .modal-full-content {
+            max-width: 900px;
+        }
+
+        .modal-full-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .random-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 1.5rem 1rem 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .social-links a {
+            background: rgba(255,255,255,0.1);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            z-index: 99;
+            box-shadow: var(--shadow-md);
+        }
+
+        .rotation-banner {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .grid-4 {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            .filters-bar {
+                gap: 0.5rem;
+            }
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR MENU BURGER A DROITE -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                NOVA<span>-SHOP</span>
+                <small>Korhogo, Cote d'Ivoire</small>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#accueil" class="sidebar-nav-item" data-section="accueil"><i class="fas fa-home"></i> Accueil</a>
+            <a href="#produits" class="sidebar-nav-item" data-section="produits"><i class="fas fa-laptop"></i> Produits</a>
+            <a href="#promotions" class="sidebar-nav-item" data-section="promotions"><i class="fas fa-tag"></i> Promotions</a>
+            <a href="#contact" class="sidebar-nav-item"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
+    </aside>
+
+    <!-- TOP NAVIGATION - LOGO GAUCHE, BURGER DROITE -->
+    <nav class="top-nav">
+        <div class="top-logo">NOVA<span style="color:var(--primary);">-SHOP</span></div>
+        <button class="menu-burger" id="menuBurger"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- FILTRES -->
+    <div class="filters-bar" id="filtersBar">
+        <button class="filter-btn active" data-category="all">Tous</button>
+        <button class="filter-btn" data-category="hp">HP</button>
+        <button class="filter-btn" data-category="dell">Dell</button>
+        <button class="filter-btn" data-category="asus">ASUS</button>
+        <button class="filter-btn" data-category="souris">Souris</button>
+        <button class="filter-btn" data-category="telephone">Telephones</button>
+    </div>
+
+    <main class="main-content">
+        <div class="container">
+            <div id="rotationBanner" class="rotation-banner">MISE EN AVANT DU MOMENT | -15% avec code NOVA15</div>
+
+            <section id="accueil">
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 24px; padding: 1.5rem; text-align: center; color: white; margin-bottom: 1.5rem;">
+                    <h1 style="font-size: 1.6rem;">Bienvenue chez NOVA-SHOP</h1>
+                    <p>Votre destination high-tech a Korhogo - Livraison gratuite</p>
+                </div>
+            </section>
+
+            <!-- 4 PREMIERS PRODUITS -->
+            <section>
+                <h2 class="section-title">Selection premium</h2>
+                <div class="grid-4" id="topProductsGrid"></div>
+            </section>
+
+            <!-- 5 PRODUITS HORIZONTAUX -->
+            <section>
+                <h2 class="section-title">Les plus populaires</h2>
+                <div class="horizontal-scroll" id="horizontalProductsGrid"></div>
+            </section>
+
+            <!-- PUBLICITE SUPERPOSEE -->
+            <div class="promo-superpose">
+                <div class="promo-superpose-content">
+                    <h3>MEGA PROMO D'ETE</h3>
+                    <p>Jusqu'a -40% sur PC et accessoires</p>
+                    <button class="promo-btn" onclick="alert('Code promo: NOVA40')">Je profite de l'offre</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=150&h=150&fit=crop" alt="Promo">
+            </div>
+
+            <!-- DECOUVRIR avec images correctes -->
+            <section>
+                <h2 class="section-title">Decouvrir</h2>
+                <div class="grid-4" id="discoverGrid"></div>
+            </section>
+
+            <!-- PRODUITS JUSTAPOSES/SUPERPOSES PROMO -->
+            <section>
+                <h2 class="section-title">Offres exclusives</h2>
+                <div class="products-mix" id="mixProductsGrid"></div>
+            </section>
+
+            <!-- BOUTON VOIR PLUS -->
+            <div class="btn-see-more">
+                <button id="seeMoreBtn"><i class="fas fa-magic"></i> Voir plus de produits</button>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>NOVA-SHOP</h4>
+                <p>High-tech a Korhogo</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Liens</h4>
+                <ul style="list-style:none;"><li>Livraison gratuite</li><li>Paiement securise</li></ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Tel: +225 0554101873</p>
+                <p>Email: novashop01@mail.com</p>
+            </div>
+        </div>
+        <div style="text-align:center; padding-top:1rem;">&copy; 2025 NOVA-SHOP. Tous droits reserves.</div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- MODAL DETAILS -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-detail">
+            <div class="modal-detail-header">
+                <h2 id="detailTitle">Details</h2>
+                <button class="close-modal" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div id="detailBody" style="padding:1.2rem;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL COMMANDE WHATSAPP -->
+    <div class="order-modal" id="orderModal">
+        <div class="order-modal-content">
+            <div class="order-header">
+                <h2 id="orderTitle">Commander</h2>
+                <button class="close-modal" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                <button class="tab-btn" data-tab="sms"><i class="fas fa-sms"></i> SMS</button>
+            </div>
+            <div id="whatsappTab" class="order-form">
+                <input type="hidden" id="orderProductId">
+                <input type="hidden" id="orderProductName">
+                <input type="hidden" id="orderProductPrice">
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" id="orderName" placeholder="Votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label>Telephone WhatsApp</label>
+                    <input type="tel" id="orderPhone" placeholder="07 12 34 56 78" required>
+                </div>
+                <div class="form-group">
+                    <label>Ville</label>
+                    <select id="orderCity" required>
+                        <option value="">Selectionner</option>
+                        <option>Abidjan</option><option>Bouake</option><option>Korhogo</option>
+                        <option>Yamoussoukro</option><option>San-Pedro</option><option>Daloa</option>
+                    </select>
+                </div>
+                <button class="submit-order" id="submitWhatsappBtn"><i class="fab fa-whatsapp"></i> Commander via WhatsApp</button>
+            </div>
+            <div id="smsTab" class="order-form" style="display:none;">
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" id="smsName" placeholder="Votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label>Telephone</label>
+                    <input type="tel" id="smsPhone" placeholder="01 23 45 67 89" required>
+                </div>
+                <div class="form-group">
+                    <label>Ville</label>
+                    <select id="smsCity" required>
+                        <option>Abidjan</option><option>Bouake</option><option>Korhogo</option>
+                    </select>
+                </div>
+                <button class="submit-order" id="submitSmsBtn"><i class="fas fa-paper-plane"></i> Envoyer la demande</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VOIR PLUS -->
+    <div class="modal-full" id="fullProductModal">
+        <div class="modal-full-content">
+            <div class="modal-full-header">
+                <h2>Decouverte exceptionnelle</h2>
+                <button class="close-modal" onclick="closeFullModal()" style="color:black;">&times;</button>
+            </div>
+            <div id="randomProductsGrid" class="random-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        // BASE DE DONNEES PRODUITS avec images de qualite pour la section Decouvrir
+        const allProducts = [
+            { id: "P1001", name: "HP Probook 640 G1", price: 154000, oldPrice: 165000, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop", category: "hp", badge: "hot", specs: ["Intel Core i5 5eme", "8GB RAM", "1000Go HDD", "14\" HD"] },
+            { id: "P1002", name: "HP Probook 640 G5", price: 210000, oldPrice: 230000, image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=300&h=200&fit=crop", category: "hp", badge: "sale", specs: ["Intel Core i5 8eme", "8GB RAM", "256Go SSD"] },
+            { id: "P1003", name: "HP Elitebook 1030 G4", price: 290000, oldPrice: 310000, image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=300&h=200&fit=crop", category: "hp", badge: "new", specs: ["Core i5 8eme", "16GB RAM", "512Go SSD", "13.3\" 4K"] },
+            { id: "P1004", name: "Dell Latitude 7280", price: 155000, oldPrice: 160000, image: "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=300&h=200&fit=crop", category: "dell", badge: "sale", specs: ["Core i5 7eme", "8GB RAM", "256Go SSD"] },
+            { id: "P1005", name: "ASUS ROG Zephyrus", price: 180000, oldPrice: 200000, image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=300&h=200&fit=crop", category: "asus", badge: "hot", specs: ["AMD Ryzen 9", "16GB RAM", "1To SSD"] },
+            { id: "P1006", name: "Acer Swift 3", price: 550000, oldPrice: 650000, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop", category: "asus", badge: "new", specs: ["Ryzen 5", "8GB RAM", "256Go SSD"] },
+            { id: "P1007", name: "MSI GF65 Thin", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=300&h=200&fit=crop", category: "asus", badge: "hot", specs: ["i7 10750H", "16GB RAM", "RTX 3060"] },
+            { id: "P1008", name: "Souris Gaming Logitech", price: 25000, oldPrice: 40000, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=300&h=200&fit=crop", category: "souris", badge: "promo", specs: ["RGB", "16000 DPI"] },
+            { id: "P1009", name: "Souris Sans Fil HP", price: 15000, oldPrice: 25000, image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=200&fit=crop", category: "souris", badge: "sale", specs: ["Bluetooth", "Silencieuse"] },
+            { id: "P1010", name: "iPhone 13", price: 450000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1632661674596-618d8b64d641?w=300&h=200&fit=crop", category: "telephone", badge: "hot", specs: ["6.1\" OLED", "128GB", "5G"] },
+            { id: "P1011", name: "Samsung Galaxy S23", price: 420000, oldPrice: 520000, image: "https://images.unsplash.com/photo-1675848290312-bf5e8a70d1b7?w=300&h=200&fit=crop", category: "telephone", badge: "new", specs: ["Snapdragon 8 Gen 2", "256GB"] },
+            { id: "P1012", name: "Xiaomi Redmi Note 12", price: 180000, oldPrice: 220000, image: "https://images.unsplash.com/photo-1675848290636-4f3b1b2e9e3a?w=300&h=200&fit=crop", category: "telephone", badge: "sale", specs: ["AMOLED", "5000mAh"] },
+            { id: "P1013", name: "Dell XPS 13", price: 650000, oldPrice: 750000, image: "https://images.unsplash.com/photo-1593642634317-48f5414d2d1a?w=300&h=200&fit=crop", category: "dell", badge: "new", specs: ["i7 12eme", "16GB RAM", "4K"] },
+            { id: "P1014", name: "Clavier Mecanique RGB", price: 45000, oldPrice: 65000, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=200&fit=crop", category: "souris", badge: "promo", specs: ["Mecanique", "RGB", "AZERTY"] },
+            { id: "P1015", name: "Ecran 24\" Dell", price: 120000, oldPrice: 150000, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=200&fit=crop", category: "dell", badge: "sale", specs: ["24\" FHD", "IPS", "75Hz"] },
+            { id: "P1016", name: "Casque Gaming HyperX", price: 55000, oldPrice: 85000, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=200&fit=crop", category: "souris", badge: "hot", specs: ["7.1 Surround", "Micro", "RGB"] }
+        ];
+
+        let currentFilter = "all";
+
+        function renderProductCard(p) {
+            const badgeClass = p.badge === 'hot' ? 'badge-hot' : (p.badge === 'new' ? 'badge-new' : (p.badge === 'promo' ? 'badge-promo' : 'badge-sale'));
+            const badgeText = p.badge === 'hot' ? 'TOP' : (p.badge === 'new' ? 'NEW' : (p.badge === 'promo' ? 'PROMO' : 'SALE'));
+            return `
+                <div class="product-card" data-id="${p.id}">
+                    <div class="product-badge ${badgeClass}">${badgeText}</div>
+                    <img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy">
+                    <div class="product-info">
+                        <h3 class="product-title">${p.name.substring(0, 30)}</h3>
+                        <div class="product-category">${p.category.toUpperCase()}</div>
+                        <div class="product-price">${p.price.toLocaleString()} FCFA <del>${p.oldPrice.toLocaleString()} FCFA</del></div>
+                        <div class="product-actions">
+                            <button class="btn-detail" onclick='openDetailModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'><i class="fas fa-eye"></i> Details</button>
+                            <button class="btn-buy" onclick='openOrderModal("${p.id}", "${p.name.replace(/'/g, "\\'")}", ${p.price})'><i class="fas fa-cart-plus"></i> Acheter</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterProducts(cat) {
+            if(cat === 'all') return allProducts;
+            return allProducts.filter(p => p.category === cat);
+        }
+
+        function renderAll() {
+            const filtered = filterProducts(currentFilter);
+            document.getElementById('topProductsGrid').innerHTML = filtered.slice(0,4).map(renderProductCard).join('');
+            document.getElementById('horizontalProductsGrid').innerHTML = filtered.slice(4,9).map(renderProductCard).join('');
+            document.getElementById('discoverGrid').innerHTML = filtered.slice(9,14).map(renderProductCard).join('');
+            const promoMix = filtered.filter(p => p.badge === 'hot' || p.badge === 'promo').slice(0,4);
+            while(promoMix.length < 4) promoMix.push(filtered[0]);
+            document.getElementById('mixProductsGrid').innerHTML = promoMix.map(renderProductCard).join('');
+        }
+
+        // MODAL DETAILS
+        function openDetailModal(p) {
+            const specs = p.specs.map(s => `<li><i class="fas fa-check-circle" style="color:var(--primary);"></i> ${s}</li>`).join('');
+            document.getElementById('detailTitle').innerHTML = p.name;
+            document.getElementById('detailBody').innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+                    <img src="${p.image}" style="width:180px; border-radius:16px;">
+                    <div style="flex:1;">
+                        <h3>${p.name}</h3>
+                        <div style="font-size:1.3rem; color:var(--primary); font-weight:bold;">${p.price.toLocaleString()} FCFA <del>${p.oldPrice.toLocaleString()} FCFA</del></div>
+                        <ul style="list-style:none; margin:1rem 0;">${specs}</ul>
+                        <button class="btn-buy" onclick='closeDetailModal(); openOrderModal("${p.id}", "${p.name.replace(/'/g, "\\'")}", ${p.price})' style="width:100%;">Commander</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+        function closeDetailModal() { document.getElementById('detailModal').style.display = 'none'; }
+
+        // MODAL COMMANDE WHATSAPP
+        function openOrderModal(id, name, price) {
+            document.getElementById('orderProductId').value = id;
+            document.getElementById('orderProductName').value = name;
+            document.getElementById('orderProductPrice').value = price;
+            document.getElementById('orderTitle').innerHTML = `Commander: ${name.substring(0,25)}`;
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+        function closeOrderModal() { document.getElementById('orderModal').style.display = 'none'; }
+
+        document.getElementById('submitWhatsappBtn')?.addEventListener('click', () => {
+            const name = document.getElementById('orderName').value;
+            let phone = document.getElementById('orderPhone').value.replace(/\s/g, '');
+            const city = document.getElementById('orderCity').value;
+            const product = document.getElementById('orderProductName').value;
+            const price = document.getElementById('orderProductPrice').value;
+            if(!name || !phone || !city) { alert("Veuillez remplir tous les champs"); return; }
+            if(phone.startsWith('0')) phone = phone.substring(1);
+            const message = `Bonjour NOVA-SHOP,%0AJe souhaite commander :%0A*${product}*%0APrix: ${parseInt(price).toLocaleString()} FCFA%0ANom: ${name}%0AVille: ${city}%0AMerci de me contacter pour finaliser.`;
+            window.open(`https://wa.me/225${phone}?text=${message}`, '_blank');
+            closeOrderModal();
+        });
+
+        document.getElementById('submitSmsBtn')?.addEventListener('click', () => {
+            alert("Demande enregistree ! Nous vous contacterons sous 24h.");
+            closeOrderModal();
+        });
+
+        // ONGLETS
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const tab = btn.dataset.tab;
+                document.getElementById('whatsappTab').style.display = tab === 'whatsapp' ? 'block' : 'none';
+                document.getElementById('smsTab').style.display = tab === 'sms' ? 'block' : 'none';
+            });
+        });
+
+        // FILTRES
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.category;
+                renderAll();
+            });
+        });
+
+        // MENU BURGER A DROITE
+        const sidebar = document.getElementById('sidebar');
+        const menuBtn = document.getElementById('menuBurger');
+        menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+        document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if(window.innerWidth < 768) sidebar.classList.remove('open');
+            });
+        });
+        document.addEventListener('click', (e) => {
+            if(window.innerWidth < 768 && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // VOIR PLUS
+        function openFullModal() {
+            const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+            document.getElementById('randomProductsGrid').innerHTML = shuffled.slice(0,12).map(renderProductCard).join('');
+            document.getElementById('fullProductModal').style.display = 'flex';
+        }
+        function closeFullModal() { document.getElementById('fullProductModal').style.display = 'none'; }
+        document.getElementById('seeMoreBtn')?.addEventListener('click', openFullModal);
+
+        // BACK TO TOP
+        const backBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+        backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ROTATION BANNER
+        function updateRotationBanner() {
+            const featured = [...allProducts].sort(() => 0.5 - Math.random()).slice(0,3);
+            const names = featured.map(p => p.name.split(' ')[0]).join(', ');
+            document.getElementById('rotationBanner').innerHTML = `MISE EN AVANT | ${names}... | -15% avec code NOVA15`;
+        }
+        updateRotationBanner();
+        setInterval(updateRotationBanner, 5 * 3600 * 1000);
+
+        // FERMETURE MODALS EXTERIEUR
+        window.onclick = function(e) {
+            if(e.target === document.getElementById('detailModal')) closeDetailModal();
+            if(e.target === document.getElementById('orderModal')) closeOrderModal();
+            if(e.target === document.getElementById('fullProductModal')) closeFullModal();
+        }
+
+        renderAll();
+    </script>
+</body>
+</html>
