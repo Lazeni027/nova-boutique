@@ -115,7 +115,7 @@
             padding-left: 2.2rem;
         }
 
-        /* TOP NAVIGATION */
+        /* TOP NAVIGATION - LOGO GAUCHE, BURGER DROITE */
         .top-nav {
             position: fixed;
             top: 0;
@@ -217,16 +217,13 @@
             gap: 1.2rem;
         }
 
-        /* HORIZONTAL SCROLL */
         .horizontal-scroll {
             display: flex;
             overflow-x: auto;
-            overflow-y: visible;
             gap: 1rem;
-            padding: 0.5rem 0.5rem 1rem 0.5rem;
+            padding: 0.5rem 0 1rem;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
         }
 
         .horizontal-scroll::-webkit-scrollbar {
@@ -246,7 +243,6 @@
         .horizontal-scroll .product-card {
             flex: 0 0 270px;
             scroll-snap-align: start;
-            min-width: 260px;
         }
 
         /* PRODUCT CARD */
@@ -389,43 +385,34 @@
             border: none;
         }
 
-        /* ==================== */
-        /* OFFRES EXCLUSIVES - GRILLE 2x2 REDUITE ET BIEN JUSTIFIEE */
-        /* ==================== */
+        /* MIX GRID (justapose/superpose) */
         .products-mix {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
         }
 
-        /* Tous les produits identiques - pas de span special */
-        .products-mix .product-card {
-            grid-column: span 1;
-            grid-row: span 1;
+        .products-mix .product-card:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
         }
 
-        /* Hauteur d'image reduite pour un affichage plus compact et harmonieux */
-        .products-mix .product-img {
-            height: 170px;
+        .products-mix .product-card:first-child .product-img {
+            height: 280px;
         }
 
-        /* Responsive pour tres petit ecran */
+        @media (max-width: 768px) {
+            .products-mix {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .products-mix .product-card:first-child {
+                grid-column: span 2;
+            }
+        }
+
         @media (max-width: 480px) {
             .products-mix {
-                gap: 0.8rem;
-            }
-            .products-mix .product-img {
-                height: 150px;
-            }
-            .products-mix .product-title {
-                font-size: 0.85rem;
-            }
-            .products-mix .product-price {
-                font-size: 0.95rem;
-            }
-            .products-mix .btn-detail, .products-mix .btn-buy {
-                padding: 0.4rem;
-                font-size: 0.7rem;
+                grid-template-columns: 1fr;
             }
         }
 
@@ -452,7 +439,7 @@
             color: white;
         }
 
-        /* MODAL DETAILS */
+        /* MODALS */
         .modal-overlay, .order-modal, .modal-full {
             display: none;
             position: fixed;
@@ -460,7 +447,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.75);
             backdrop-filter: blur(8px);
             z-index: 2000;
             justify-content: center;
@@ -468,165 +455,16 @@
             padding: 1rem;
         }
 
-        .modal-detail {
+        .modal-detail, .order-modal-content, .modal-full-content {
             background: white;
             border-radius: 24px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .modal-detail-header {
-            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
-            color: white;
-            padding: 1rem 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 24px 24px 0 0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .modal-detail-header h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .modal-detail-body {
-            padding: 0;
-        }
-
-        .modal-product-img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 24px 24px 0 0;
-        }
-
-        .modal-details-section {
-            padding: 1.2rem;
-        }
-
-        .modal-product-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-
-        .modal-product-price {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-product-price del {
-            font-size: 1rem;
-            color: var(--gray);
-            margin-left: 0.5rem;
-            font-weight: normal;
-        }
-
-        .modal-specs {
-            list-style: none;
-            margin: 1rem 0;
-            padding: 0;
-        }
-
-        .modal-specs li {
-            padding: 0.6rem 0;
-            border-bottom: 1px solid var(--light-gray);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 0.9rem;
-            text-align: left;
-        }
-
-        .modal-specs li i {
-            color: var(--primary);
-            width: 22px;
-            font-size: 0.9rem;
-        }
-
-        .modal-buy-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-buy-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            width: 100%;
-            max-width: 280px;
-            padding: 0.9rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .modal-buy-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-            line-height: 1;
-            padding: 0;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .close-modal:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        /* MODAL COMMANDE */
-        .order-modal-content {
-            background: white;
-            border-radius: 24px;
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
             max-height: 85vh;
             overflow-y: auto;
         }
 
-        .order-header {
+        .modal-detail-header, .order-header {
             background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
             color: white;
             padding: 1rem 1.2rem;
@@ -690,26 +528,15 @@
             margin-top: 0.5rem;
         }
 
-        /* MODAL VOIR PLUS */
         .modal-full-content {
-            background: white;
-            border-radius: 24px;
             max-width: 900px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
         }
 
         .modal-full-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 1rem;
             border-bottom: 1px solid var(--light-gray);
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 10;
         }
 
         .random-grid {
@@ -717,6 +544,14 @@
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
             padding: 1rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         /* FOOTER */
@@ -782,47 +617,16 @@
             margin-bottom: 1rem;
         }
 
-        /* RESPONSIVE SUPPLEMENTAIRE */
         @media (max-width: 640px) {
             .grid-4 {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1rem;
             }
             .filters-bar {
                 gap: 0.5rem;
-                padding: 0.6rem;
             }
             .filter-btn {
-                padding: 0.4rem 0.9rem;
-                font-size: 0.7rem;
-            }
-            .section-title {
-                font-size: 1.3rem;
-                margin: 1rem 0 0.8rem;
-            }
-            .horizontal-scroll {
-                gap: 0.8rem;
-                padding: 0.3rem 0.3rem 0.8rem 0.3rem;
-            }
-            .horizontal-scroll .product-card {
-                flex: 0 0 250px;
-                min-width: 240px;
-            }
-            .modal-product-img {
-                height: 220px;
-            }
-            .modal-product-title {
-                font-size: 1.1rem;
-            }
-            .modal-product-price {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .horizontal-scroll .product-card {
-                flex: 0 0 230px;
-                min-width: 220px;
+                padding: 0.4rem 1rem;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -844,7 +648,7 @@
         </nav>
     </aside>
 
-    <!-- TOP NAVIGATION -->
+    <!-- TOP NAVIGATION - LOGO GAUCHE, BURGER DROITE -->
     <nav class="top-nav">
         <div class="top-logo">NOVA<span style="color:var(--primary);">-SHOP</span></div>
         <button class="menu-burger" id="menuBurger"><i class="fas fa-bars"></i></button>
@@ -893,13 +697,13 @@
                 <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=150&h=150&fit=crop" alt="Promo">
             </div>
 
-            <!-- DECOUVRIR -->
+            <!-- DECOUVRIR avec images correctes -->
             <section>
                 <h2 class="section-title">Decouvrir</h2>
                 <div class="grid-4" id="discoverGrid"></div>
             </section>
 
-            <!-- OFFRES EXCLUSIVES - GRILLE 2x2 avec 4 produits reduits et bien justifies -->
+            <!-- PRODUITS JUSTAPOSES/SUPERPOSES PROMO -->
             <section>
                 <h2 class="section-title">Offres exclusives</h2>
                 <div class="products-mix" id="mixProductsGrid"></div>
@@ -942,10 +746,10 @@
     <div class="modal-overlay" id="detailModal">
         <div class="modal-detail">
             <div class="modal-detail-header">
-                <h2 id="detailTitle">Details produit</h2>
+                <h2 id="detailTitle">Details</h2>
                 <button class="close-modal" onclick="closeDetailModal()">&times;</button>
             </div>
-            <div id="detailBody" class="modal-detail-body"></div>
+            <div id="detailBody" style="padding:1.2rem;"></div>
         </div>
     </div>
 
@@ -1014,26 +818,29 @@
     </div>
 
     <script>
-        // BASE DE DONNEES PRODUITS
+        // BASE DE DONNEES PRODUITS avec images de qualite pour la section Decouvrir
         const allProducts = [
-            { id: "P1001", name: "HP Probook 640 G1", price: 154000, oldPrice: 165000, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop", category: "hp", badge: "hot", specs: ["Intel Core i5 5eme generation", "8GB RAM DDR4", "1000Go HDD", "14 pouces HD", "Clavier AZERTY", "Windows 10 Pro"] },
-            { id: "P1002", name: "HP Probook 640 G5", price: 210000, oldPrice: 230000, image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400&h=300&fit=crop", category: "hp", badge: "sale", specs: ["Intel Core i5 8eme generation", "8GB RAM DDR4", "256Go SSD", "14 pouces Full HD", "Clavier AZERTY", "Windows 11 Pro"] },
-            { id: "P1003", name: "HP Elitebook 1030 G4", price: 290000, oldPrice: 310000, image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=300&fit=crop", category: "hp", badge: "new", specs: ["Intel Core i5 8eme generation", "16GB RAM DDR4", "512Go SSD", "13.3 pouces 4K tactile", "Clavier retroeclaire", "Windows 11 Pro"] },
-            { id: "P1004", name: "Dell Latitude 7280", price: 155000, oldPrice: 160000, image: "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=400&h=300&fit=crop", category: "dell", badge: "sale", specs: ["Intel Core i5 7eme generation", "8GB RAM DDR4", "256Go SSD", "14 pouces Full HD", "Clavier AZERTY", "Windows 10 Pro"] },
-            { id: "P1005", name: "ASUS ROG Zephyrus", price: 180000, oldPrice: 200000, image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=300&fit=crop", category: "asus", badge: "hot", specs: ["AMD Ryzen 9 5900HS", "16GB RAM DDR4", "1To SSD NVMe", "14 pouces QHD 120Hz", "RTX 3060", "Windows 11"] },
-            { id: "P1006", name: "Acer Swift 3", price: 550000, oldPrice: 650000, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop", category: "asus", badge: "new", specs: ["AMD Ryzen 5 5500U", "8GB RAM DDR4", "256Go SSD", "14 pouces Full HD IPS", "Windows 11 Home"] },
-            { id: "P1007", name: "MSI GF65 Thin", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop", category: "asus", badge: "hot", specs: ["Intel Core i7 10750H", "16GB RAM DDR4", "512Go SSD", "15.6 pouces 144Hz", "RTX 3060", "Windows 11"] },
-            { id: "P1008", name: "Souris Gaming Logitech", price: 25000, oldPrice: 40000, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400&h=300&fit=crop", category: "souris", badge: "promo", specs: ["Capteur 16000 DPI", "6 boutons programmables", "RGB personnalisable", "Cable tisse"] },
-            { id: "P1009", name: "Souris Sans Fil HP", price: 15000, oldPrice: 25000, image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop", category: "souris", badge: "sale", specs: ["Connexion 2.4GHz", "Silencieuse", "Batterie 12 mois", "Compacte"] },
-            { id: "P1010", name: "iPhone 13", price: 450000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1632661674596-618d8b64d641?w=400&h=300&fit=crop", category: "telephone", badge: "hot", specs: ["Ecran 6.1 pouces OLED", "128GB stockage", "A15 Bionic", "5G", "Double appareil photo"] },
-            { id: "P1011", name: "Samsung Galaxy S23", price: 420000, oldPrice: 520000, image: "https://images.unsplash.com/photo-1675848290312-bf5e8a70d1b7?w=400&h=300&fit=crop", category: "telephone", badge: "new", specs: ["Ecran 6.1 pouces Dynamic AMOLED", "256GB stockage", "Snapdragon 8 Gen 2", "5G"] },
-            { id: "P1012", name: "Xiaomi Redmi Note 12", price: 180000, oldPrice: 220000, image: "https://images.unsplash.com/photo-1675848290636-4f3b1b2e9e3a?w=400&h=300&fit=crop", category: "telephone", badge: "sale", specs: ["Ecran 6.67 pouces AMOLED", "128GB stockage", "5000mAh batterie", "Charge rapide"] },
-            { id: "P1013", name: "Dell XPS 13", price: 650000, oldPrice: 750000, image: "https://images.unsplash.com/photo-1593642634317-48f5414d2d1a?w=400&h=300&fit=crop", category: "dell", badge: "new", specs: ["Intel Core i7 12eme gen", "16GB RAM LPDDR5", "512Go SSD", "13.4 pouces 4K", "Windows 11 Pro"] }
+            { id: "P1001", name: "HP Probook 640 G1", price: 154000, oldPrice: 165000, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop", category: "hp", badge: "hot", specs: ["Intel Core i5 5eme", "8GB RAM", "1000Go HDD", "14\" HD"] },
+            { id: "P1002", name: "HP Probook 640 G5", price: 210000, oldPrice: 230000, image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=300&h=200&fit=crop", category: "hp", badge: "sale", specs: ["Intel Core i5 8eme", "8GB RAM", "256Go SSD"] },
+            { id: "P1003", name: "HP Elitebook 1030 G4", price: 290000, oldPrice: 310000, image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=300&h=200&fit=crop", category: "hp", badge: "new", specs: ["Core i5 8eme", "16GB RAM", "512Go SSD", "13.3\" 4K"] },
+            { id: "P1004", name: "Dell Latitude 7280", price: 155000, oldPrice: 160000, image: "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=300&h=200&fit=crop", category: "dell", badge: "sale", specs: ["Core i5 7eme", "8GB RAM", "256Go SSD"] },
+            { id: "P1005", name: "ASUS ROG Zephyrus", price: 180000, oldPrice: 200000, image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=300&h=200&fit=crop", category: "asus", badge: "hot", specs: ["AMD Ryzen 9", "16GB RAM", "1To SSD"] },
+            { id: "P1006", name: "Acer Swift 3", price: 550000, oldPrice: 650000, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop", category: "asus", badge: "new", specs: ["Ryzen 5", "8GB RAM", "256Go SSD"] },
+            { id: "P1007", name: "MSI GF65 Thin", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=300&h=200&fit=crop", category: "asus", badge: "hot", specs: ["i7 10750H", "16GB RAM", "RTX 3060"] },
+            { id: "P1008", name: "Souris Gaming Logitech", price: 25000, oldPrice: 40000, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=300&h=200&fit=crop", category: "souris", badge: "promo", specs: ["RGB", "16000 DPI"] },
+            { id: "P1009", name: "Souris Sans Fil HP", price: 15000, oldPrice: 25000, image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=200&fit=crop", category: "souris", badge: "sale", specs: ["Bluetooth", "Silencieuse"] },
+            { id: "P1010", name: "iPhone 13", price: 450000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1632661674596-618d8b64d641?w=300&h=200&fit=crop", category: "telephone", badge: "hot", specs: ["6.1\" OLED", "128GB", "5G"] },
+            { id: "P1011", name: "Samsung Galaxy S23", price: 420000, oldPrice: 520000, image: "https://images.unsplash.com/photo-1675848290312-bf5e8a70d1b7?w=300&h=200&fit=crop", category: "telephone", badge: "new", specs: ["Snapdragon 8 Gen 2", "256GB"] },
+            { id: "P1012", name: "Xiaomi Redmi Note 12", price: 180000, oldPrice: 220000, image: "https://images.unsplash.com/photo-1675848290636-4f3b1b2e9e3a?w=300&h=200&fit=crop", category: "telephone", badge: "sale", specs: ["AMOLED", "5000mAh"] },
+            { id: "P1013", name: "Dell XPS 13", price: 650000, oldPrice: 750000, image: "https://images.unsplash.com/photo-1593642634317-48f5414d2d1a?w=300&h=200&fit=crop", category: "dell", badge: "new", specs: ["i7 12eme", "16GB RAM", "4K"] },
+            { id: "P1014", name: "Clavier Mecanique RGB", price: 45000, oldPrice: 65000, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=200&fit=crop", category: "souris", badge: "promo", specs: ["Mecanique", "RGB", "AZERTY"] },
+            { id: "P1015", name: "Ecran 24\" Dell", price: 120000, oldPrice: 150000, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=200&fit=crop", category: "dell", badge: "sale", specs: ["24\" FHD", "IPS", "75Hz"] },
+            { id: "P1016", name: "Casque Gaming HyperX", price: 55000, oldPrice: 85000, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=200&fit=crop", category: "souris", badge: "hot", specs: ["7.1 Surround", "Micro", "RGB"] }
         ];
 
         let currentFilter = "all";
 
-        function renderProductCard(p, isCompact = false) {
+        function renderProductCard(p) {
             const badgeClass = p.badge === 'hot' ? 'badge-hot' : (p.badge === 'new' ? 'badge-new' : (p.badge === 'promo' ? 'badge-promo' : 'badge-sale'));
             const badgeText = p.badge === 'hot' ? 'TOP' : (p.badge === 'new' ? 'NEW' : (p.badge === 'promo' ? 'PROMO' : 'SALE'));
             return `
@@ -1060,53 +867,32 @@
 
         function renderAll() {
             const filtered = filterProducts(currentFilter);
-            
-            // Section 1: 4 premiers produits
-            document.getElementById('topProductsGrid').innerHTML = filtered.slice(0,4).map(p => renderProductCard(p)).join('');
-            
-            // Section 2: produits horizontaux (5 produits)
-            document.getElementById('horizontalProductsGrid').innerHTML = filtered.slice(4,9).map(p => renderProductCard(p)).join('');
-            
-            // Section 3: Decouvrir (5 produits)
-            document.getElementById('discoverGrid').innerHTML = filtered.slice(9,14).map(p => renderProductCard(p)).join('');
-            
-            // Section 4: Offres exclusives - 4 produits en grille 2x2
-            // On prend des produits avec badge hot, promo ou sale pour les offres exclusives
-            let exclusiveProducts = filtered.filter(p => p.badge === 'hot' || p.badge === 'promo' || p.badge === 'sale');
-            if(exclusiveProducts.length < 4) {
-                exclusiveProducts = [...exclusiveProducts, ...filtered.slice(0, 4 - exclusiveProducts.length)];
-            }
-            exclusiveProducts = exclusiveProducts.slice(0,4);
-            
-            // Rendu de la grille 2x2 avec 4 produits
-            document.getElementById('mixProductsGrid').innerHTML = exclusiveProducts.map(p => renderProductCard(p)).join('');
+            document.getElementById('topProductsGrid').innerHTML = filtered.slice(0,4).map(renderProductCard).join('');
+            document.getElementById('horizontalProductsGrid').innerHTML = filtered.slice(4,9).map(renderProductCard).join('');
+            document.getElementById('discoverGrid').innerHTML = filtered.slice(9,14).map(renderProductCard).join('');
+            const promoMix = filtered.filter(p => p.badge === 'hot' || p.badge === 'promo').slice(0,4);
+            while(promoMix.length < 4) promoMix.push(filtered[0]);
+            document.getElementById('mixProductsGrid').innerHTML = promoMix.map(renderProductCard).join('');
         }
 
         // MODAL DETAILS
         function openDetailModal(p) {
-            const specs = p.specs.map(s => `<li><i class="fas fa-check-circle"></i> ${s}</li>`).join('');
+            const specs = p.specs.map(s => `<li><i class="fas fa-check-circle" style="color:var(--primary);"></i> ${s}</li>`).join('');
             document.getElementById('detailTitle').innerHTML = p.name;
             document.getElementById('detailBody').innerHTML = `
-                <img src="${p.image}" alt="${p.name}" class="modal-product-img">
-                <div class="modal-details-section">
-                    <h3 class="modal-product-title">${p.name}</h3>
-                    <div class="modal-product-price">${p.price.toLocaleString()} FCFA <del>${p.oldPrice.toLocaleString()} FCFA</del></div>
-                    <ul class="modal-specs">${specs}</ul>
-                    <div class="modal-buy-container">
-                        <button class="modal-buy-btn" onclick='closeDetailModal(); openOrderModal("${p.id}", "${p.name.replace(/'/g, "\\'")}", ${p.price})'>
-                            <i class="fas fa-shopping-cart"></i> Commander maintenant
-                        </button>
+                <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+                    <img src="${p.image}" style="width:180px; border-radius:16px;">
+                    <div style="flex:1;">
+                        <h3>${p.name}</h3>
+                        <div style="font-size:1.3rem; color:var(--primary); font-weight:bold;">${p.price.toLocaleString()} FCFA <del>${p.oldPrice.toLocaleString()} FCFA</del></div>
+                        <ul style="list-style:none; margin:1rem 0;">${specs}</ul>
+                        <button class="btn-buy" onclick='closeDetailModal(); openOrderModal("${p.id}", "${p.name.replace(/'/g, "\\'")}", ${p.price})' style="width:100%;">Commander</button>
                     </div>
                 </div>
             `;
             document.getElementById('detailModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
         }
-
-        function closeDetailModal() { 
-            document.getElementById('detailModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        function closeDetailModal() { document.getElementById('detailModal').style.display = 'none'; }
 
         // MODAL COMMANDE WHATSAPP
         function openOrderModal(id, name, price) {
@@ -1115,13 +901,8 @@
             document.getElementById('orderProductPrice').value = price;
             document.getElementById('orderTitle').innerHTML = `Commander: ${name.substring(0,25)}`;
             document.getElementById('orderModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
         }
-
-        function closeOrderModal() { 
-            document.getElementById('orderModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        function closeOrderModal() { document.getElementById('orderModal').style.display = 'none'; }
 
         document.getElementById('submitWhatsappBtn')?.addEventListener('click', () => {
             const name = document.getElementById('orderName').value;
@@ -1162,18 +943,13 @@
             });
         });
 
-        // MENU BURGER
+        // MENU BURGER A DROITE
         const sidebar = document.getElementById('sidebar');
         const menuBtn = document.getElementById('menuBurger');
         menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
         document.querySelectorAll('.sidebar-nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 if(window.innerWidth < 768) sidebar.classList.remove('open');
-                const target = item.getAttribute('href');
-                if(target && target !== '#') {
-                    const element = document.querySelector(target);
-                    if(element) element.scrollIntoView({ behavior: 'smooth' });
-                }
             });
         });
         document.addEventListener('click', (e) => {
@@ -1185,14 +961,10 @@
         // VOIR PLUS
         function openFullModal() {
             const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
-            document.getElementById('randomProductsGrid').innerHTML = shuffled.slice(0,12).map(p => renderProductCard(p)).join('');
+            document.getElementById('randomProductsGrid').innerHTML = shuffled.slice(0,12).map(renderProductCard).join('');
             document.getElementById('fullProductModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
         }
-        function closeFullModal() { 
-            document.getElementById('fullProductModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        function closeFullModal() { document.getElementById('fullProductModal').style.display = 'none'; }
         document.getElementById('seeMoreBtn')?.addEventListener('click', openFullModal);
 
         // BACK TO TOP
