@@ -389,27 +389,22 @@
             border: none;
         }
 
-        /* ==================== */
         /* OFFRES EXCLUSIVES - GRILLE 2x2 REDUITE ET BIEN JUSTIFIEE */
-        /* ==================== */
         .products-mix {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
 
-        /* Tous les produits identiques - pas de span special */
         .products-mix .product-card {
             grid-column: span 1;
             grid-row: span 1;
         }
 
-        /* Hauteur d'image reduite pour un affichage plus compact et harmonieux */
         .products-mix .product-img {
             height: 170px;
         }
 
-        /* Responsive pour tres petit ecran */
         @media (max-width: 480px) {
             .products-mix {
                 gap: 0.8rem;
@@ -782,7 +777,6 @@
             margin-bottom: 1rem;
         }
 
-        /* RESPONSIVE SUPPLEMENTAIRE */
         @media (max-width: 640px) {
             .grid-4 {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -816,13 +810,6 @@
             }
             .modal-product-price {
                 font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .horizontal-scroll .product-card {
-                flex: 0 0 230px;
-                min-width: 220px;
             }
         }
     </style>
@@ -899,7 +886,7 @@
                 <div class="grid-4" id="discoverGrid"></div>
             </section>
 
-            <!-- OFFRES EXCLUSIVES - GRILLE 2x2 avec 4 produits reduits et bien justifies -->
+            <!-- OFFRES EXCLUSIVES - GRILLE 2x2 -->
             <section>
                 <h2 class="section-title">Offres exclusives</h2>
                 <div class="products-mix" id="mixProductsGrid"></div>
@@ -969,7 +956,7 @@
                     <input type="text" id="orderName" placeholder="Votre nom" required>
                 </div>
                 <div class="form-group">
-                    <label>Telephone WhatsApp</label>
+                    <label>Votre telephone (pour etre rappele)</label>
                     <input type="tel" id="orderPhone" placeholder="07 12 34 56 78" required>
                 </div>
                 <div class="form-group">
@@ -988,7 +975,7 @@
                     <input type="text" id="smsName" placeholder="Votre nom" required>
                 </div>
                 <div class="form-group">
-                    <label>Telephone</label>
+                    <label>Votre telephone</label>
                     <input type="tel" id="smsPhone" placeholder="01 23 45 67 89" required>
                 </div>
                 <div class="form-group">
@@ -1033,7 +1020,7 @@
 
         let currentFilter = "all";
 
-        function renderProductCard(p, isCompact = false) {
+        function renderProductCard(p) {
             const badgeClass = p.badge === 'hot' ? 'badge-hot' : (p.badge === 'new' ? 'badge-new' : (p.badge === 'promo' ? 'badge-promo' : 'badge-sale'));
             const badgeText = p.badge === 'hot' ? 'TOP' : (p.badge === 'new' ? 'NEW' : (p.badge === 'promo' ? 'PROMO' : 'SALE'));
             return `
@@ -1061,24 +1048,15 @@
         function renderAll() {
             const filtered = filterProducts(currentFilter);
             
-            // Section 1: 4 premiers produits
             document.getElementById('topProductsGrid').innerHTML = filtered.slice(0,4).map(p => renderProductCard(p)).join('');
-            
-            // Section 2: produits horizontaux (5 produits)
             document.getElementById('horizontalProductsGrid').innerHTML = filtered.slice(4,9).map(p => renderProductCard(p)).join('');
-            
-            // Section 3: Decouvrir (5 produits)
             document.getElementById('discoverGrid').innerHTML = filtered.slice(9,14).map(p => renderProductCard(p)).join('');
             
-            // Section 4: Offres exclusives - 4 produits en grille 2x2
-            // On prend des produits avec badge hot, promo ou sale pour les offres exclusives
             let exclusiveProducts = filtered.filter(p => p.badge === 'hot' || p.badge === 'promo' || p.badge === 'sale');
             if(exclusiveProducts.length < 4) {
                 exclusiveProducts = [...exclusiveProducts, ...filtered.slice(0, 4 - exclusiveProducts.length)];
             }
             exclusiveProducts = exclusiveProducts.slice(0,4);
-            
-            // Rendu de la grille 2x2 avec 4 produits
             document.getElementById('mixProductsGrid').innerHTML = exclusiveProducts.map(p => renderProductCard(p)).join('');
         }
 
@@ -1108,7 +1086,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // MODAL COMMANDE WHATSAPP
+        // MODAL COMMANDE
         function openOrderModal(id, name, price) {
             document.getElementById('orderProductId').value = id;
             document.getElementById('orderProductName').value = name;
@@ -1123,21 +1101,41 @@
             document.body.style.overflow = 'auto';
         }
 
+        // CORRECTION WHATSAPP - ENVOI VERS LE NUMERO DU MARCHAND (+225 0554101873)
         document.getElementById('submitWhatsappBtn')?.addEventListener('click', () => {
             const name = document.getElementById('orderName').value;
-            let phone = document.getElementById('orderPhone').value.replace(/\s/g, '');
+            const clientPhone = document.getElementById('orderPhone').value;
             const city = document.getElementById('orderCity').value;
             const product = document.getElementById('orderProductName').value;
             const price = document.getElementById('orderProductPrice').value;
-            if(!name || !phone || !city) { alert("Veuillez remplir tous les champs"); return; }
-            if(phone.startsWith('0')) phone = phone.substring(1);
-            const message = `Bonjour NOVA-SHOP,%0AJe souhaite commander :%0A*${product}*%0APrix: ${parseInt(price).toLocaleString()} FCFA%0ANom: ${name}%0AVille: ${city}%0AMerci de me contacter pour finaliser.`;
-            window.open(`https://wa.me/225${phone}?text=${message}`, '_blank');
+            
+            if(!name || !clientPhone || !city) { 
+                alert("Veuillez remplir tous les champs"); 
+                return; 
+            }
+            
+            // Message formaté pour le marchand
+            const message = `🛒 NOUVELLE COMMANDE NOVA-SHOP 🛒%0A%0A📦 Produit: ${product}%0A💰 Prix: ${parseInt(price).toLocaleString()} FCFA%0A👤 Client: ${name}%0A📞 Tel client: ${clientPhone}%0A📍 Ville: ${city}%0A%0A✅ Merci de contacter le client pour finaliser la commande.`;
+            
+            // Numero du marchand: 0554101873 -> format international sans le 0: 225554101873
+            const marchandPhone = "225554101873";
+            
+            window.open(`https://wa.me/${marchandPhone}?text=${message}`, '_blank');
             closeOrderModal();
+            alert("✓ Votre commande a ete envoyee au marchand. Vous serez contacte sous 24h sur votre telephone.");
         });
 
         document.getElementById('submitSmsBtn')?.addEventListener('click', () => {
-            alert("Demande enregistree ! Nous vous contacterons sous 24h.");
+            const name = document.getElementById('smsName').value;
+            const phone = document.getElementById('smsPhone').value;
+            const city = document.getElementById('smsCity').value;
+            
+            if(!name || !phone || !city) {
+                alert("Veuillez remplir tous les champs");
+                return;
+            }
+            
+            alert(`✓ Demande enregistree pour ${name}\nNous vous contacterons sous 24h au ${phone}`);
             closeOrderModal();
         });
 
